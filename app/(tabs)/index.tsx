@@ -1,32 +1,38 @@
 import { useState } from "react";
-import { View, Text, TextInput, TouchableOpacity, StyleSheet } from "react-native";
-import { useRouter } from "expo-router";   //  import router
+import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
+import { useRouter } from "expo-router";
 
 export default function Index() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
-  const router = useRouter();  // create router
+  const router = useRouter();
 
+  // Handle username/password login
   const handleLogin = () => {
     if (username && password) {
-      router.push("/home"); // navigate to home page
+      router.push({ pathname: "/home", query: { user: username } }); // navigate to home page
     } else {
-      alert("Please enter username and password");
+      Alert.alert("Error", "Please enter username and password");
     }
+  };
+
+  // Navigate to mobile login page
+  const handleMobileLogin = () => {
+    router.push("/mobile-login");
   };
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Welcome </Text>
+      <Text style={styles.title}>Welcome</Text>
       <Text style={styles.subtitle}>Login to continue</Text>
 
+      {/* Username/Password Login */}
       <TextInput
         style={styles.input}
         placeholder="Enter Username"
         value={username}
         onChangeText={setUsername}
       />
-
       <TextInput
         style={styles.input}
         placeholder="Enter Password"
@@ -34,9 +40,16 @@ export default function Index() {
         value={password}
         onChangeText={setPassword}
       />
-
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
+      </TouchableOpacity>
+
+      {/* Separator */}
+      <Text style={styles.orText}>OR</Text>
+
+      {/* Mobile Login */}
+      <TouchableOpacity style={styles.button} onPress={handleMobileLogin}>
+        <Text style={styles.buttonText}>Login with Mobile</Text>
       </TouchableOpacity>
     </View>
   );
@@ -75,11 +88,17 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     width: "100%",
     alignItems: "center",
-    marginTop: 10
+    marginBottom: 10
   },
   buttonText: {
     color: "#fff",
     fontWeight: "bold",
     fontSize: 18
   },
+  orText: {
+    color: "#fff",
+    fontWeight: "bold",
+    marginVertical: 10,
+    fontSize: 16
+  }
 });
