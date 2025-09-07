@@ -1,19 +1,23 @@
 import { useState } from "react";
 import { View, Text, TextInput, TouchableOpacity, StyleSheet, Alert } from "react-native";
 import { useRouter } from "expo-router";
+import { push } from "expo-router/build/global-state/routing";
 
 export default function Index() {
   const [username, setUsername] = useState("");
   const [password, setPassword] = useState("");
   const router = useRouter();
-
+ 
   // Handle username/password login
   const handleLogin = () => {
-    if (username && password) {
-      router.push({ pathname: "/home", query: { user: username } }); // navigate to home page
-    } else {
-      Alert.alert("Error", "Please enter username and password");
+    if (username === "Username" && password === "1234") {
+      alert("Login Successful");
+      router.push("/home"); 
     }
+      else {
+      alert("Invalid Credentials");
+    }
+
   };
 
   // Navigate to mobile login page
@@ -31,14 +35,14 @@ export default function Index() {
         style={styles.input}
         placeholder="Enter Username"
         value={username}
-        onChangeText={setUsername}
+      onChangeText={setUsername}
       />
       <TextInput
         style={styles.input}
         placeholder="Enter Password"
         secureTextEntry
         value={password}
-        onChangeText={setPassword}
+      onChangeText={setPassword}
       />
       <TouchableOpacity style={styles.button} onPress={handleLogin}>
         <Text style={styles.buttonText}>Login</Text>
